@@ -13,19 +13,38 @@ cd ~
 command -v exa > /dev/null && alias ls='exa '
 command -v nano > /dev/null && export EDITOR='nano --nohelp '
 
+fetchShortHostname() {
+    # try the hostname command
+    command -v hostname && {hostname; return 0}
+
+    # try the hostname file
+    [ -f /etc/hostname ] && {cat /etc/hostname; return 0}
+
+    # give up and use a question mark
+    echo '?'
+}
+
 longPrompt() {
-    export PROMPT="%F{yellow}[$(hostname)]%f %(?.%F{green}✓%f.%F{red}✗%f) %F{cyan}%~%f » "
+    export PROMPT="%F{yellow}[$(fetchShortHostname)]%f %(?.%F{green}✓%f.%F{red}✗%f) %F{cyan}%~%f » "
 }
 
 shortPrompt() {
     export PROMPT="» "
 }
 
+packageCheck() {
+    for pkg in tldr nano micro; do
+        command -v "$pkg" > /dev/null && echo "\e[0;32m[Installed]\e[0m ${pkg}" || echo "\e[0;31m[Not installed]\e[0m ${pkg}"
+    done
+}
+
 _() {
-    x="$(dialog --keep-tite --menu 'Select a command' -1 -1 -1 1 'Short prompt' 2 'Long prompt' 2>&1 >/dev/tty)"
+    command -v dialog > /dev/null || { echo "Dialog not found; however, it is a dependency of this script."; return 1; }
+    x="$(dialog --keep-tite --menu 'Select a command' -1 -1 -1 1 'Short prompt' 2 'Long prompt' 3 'Package check' 2>&1 >/dev/tty)"
     case "$x" in
     1) shortPrompt;;
     2) longPrompt;;
+    3) packageCheck;;
     esac
 }
 longPrompt
