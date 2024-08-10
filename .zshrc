@@ -48,3 +48,11 @@ _() {
     esac
 }
 longPrompt
+
+# default to Wayland
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+# set some keys
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[3~" delete-char
