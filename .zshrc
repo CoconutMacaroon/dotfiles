@@ -10,7 +10,7 @@ autoload -Uz compinit && compinit
 cd ~
 
 # set aliases if commands exist
-command -v exa > /dev/null && alias ls='exa '
+command -v eza > /dev/null && alias ls='eza '
 command -v nano > /dev/null && export EDITOR='nano --nohelp '
 
 fetchShortHostname() {
@@ -33,7 +33,7 @@ shortPrompt() {
 }
 
 packageCheck() {
-    for pkg in tldr nano micro; do
+    for pkg in code curl eza firefox fzf git i3lock kitty micro nano sudo sudo-rs tldr tmux; do
         command -v "$pkg" > /dev/null && echo "\e[0;32m[Installed]\e[0m ${pkg}" || echo "\e[0;31m[Not installed]\e[0m ${pkg}"
     done
 }
