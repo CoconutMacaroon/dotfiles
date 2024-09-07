@@ -15,7 +15,7 @@ command -v nano > /dev/null && export EDITOR='nano --nohelp '
 
 fetchShortHostname() {
     # try the hostname command
-    command -v hostname && {hostname; return 0}
+    command -v hostname > /dev/null && {hostname; return 0}
 
     # try the hostname file
     [ -f /etc/hostname ] && {cat /etc/hostname; return 0}
