@@ -10,6 +10,7 @@ autoload -Uz compinit && compinit
 cd ~
 
 # set aliases if commands exist
+command -v lsd > /dev/null && alias ls='lsd '
 command -v eza > /dev/null && alias ls='eza '
 command -v nano > /dev/null && export EDITOR='nano --nohelp '
 
